@@ -75,15 +75,19 @@ O que faz cada template incluído no harness e como customizar.
 
 ## Scripts
 
-| Script | O que faz | Uso |
-|--------|-----------|-----|
-| [`../scripts/bootstrap.ps1`](../scripts/bootstrap.ps1) | Inicializa novo projeto com todas as ferramentas | `bootstrap.ps1 -ProjectPath ... -All` |
-| [`../scripts/new-steering.ps1`](../scripts/new-steering.ps1) | Wizard para criar steering com template por tipo | `new-steering.ps1 -ProjectPath ...` |
-| [`../scripts/new-hook.ps1`](../scripts/new-hook.ps1) | Wizard para criar hook com todos os eventos e tipos | `new-hook.ps1 -ProjectPath ...` |
-| [`../scripts/new-skill.ps1`](../scripts/new-skill.ps1) | Cria skill em todas as ferramentas detectadas | `new-skill.ps1 -ProjectPath ...` |
-| [`../scripts/new-agent.ps1`](../scripts/new-agent.ps1) | Cria agent para Claude, Copilot e Amazon Q | `new-agent.ps1 -ProjectPath ...` |
-| [`../scripts/sync-tools.ps1`](../scripts/sync-tools.ps1) | Propaga skill ou agent editado para todas as ferramentas | `sync-tools.ps1 -Type skill -Name code-review` |
-| [`../scripts/validate-harness.ps1`](../scripts/validate-harness.ps1) | Valida completude e integridade do harness de um projeto | `validate-harness.ps1 -ProjectPath ...` |
+| Script | OS | O que faz | Uso |
+|--------|-----|-----------|-----|
+| [`../scripts/bootstrap.ps1`](../scripts/bootstrap.ps1) | Win/Mac/Linux | Inicializa novo projeto com todas as ferramentas | `bootstrap.ps1 -ProjectPath ... -All` |
+| [`../scripts/unix/bootstrap.sh`](../scripts/unix/bootstrap.sh) | Mac/Linux | Wrapper bash para bootstrap.ps1 | `./bootstrap.sh --ProjectPath ... --All` |
+| [`../scripts/unix/new-project.sh`](../scripts/unix/new-project.sh) | Mac/Linux | Wizard interativo Unix para novo projeto | `./new-project.sh` |
+| [`../scripts/install-deps.ps1`](../scripts/install-deps.ps1) | Windows | Instala Git, Node.js, Python, uv, gh CLI via winget | `./install-deps.ps1` |
+| [`../scripts/unix/install-deps.sh`](../scripts/unix/install-deps.sh) | Mac/Linux | Instala todas as dependências via brew/apt/dnf/pacman | `./install-deps.sh` |
+| [`../scripts/new-steering.ps1`](../scripts/new-steering.ps1) | Win/Mac/Linux | Wizard para criar steering com template por tipo | `new-steering.ps1 -ProjectPath ...` |
+| [`../scripts/new-hook.ps1`](../scripts/new-hook.ps1) | Win/Mac/Linux | Wizard para criar hook com todos os eventos e tipos | `new-hook.ps1 -ProjectPath ...` |
+| [`../scripts/new-skill.ps1`](../scripts/new-skill.ps1) | Win/Mac/Linux | Cria skill em todas as ferramentas detectadas | `new-skill.ps1 -ProjectPath ...` |
+| [`../scripts/new-agent.ps1`](../scripts/new-agent.ps1) | Win/Mac/Linux | Cria agent para Claude, Copilot e Amazon Q | `new-agent.ps1 -ProjectPath ...` |
+| [`../scripts/sync-tools.ps1`](../scripts/sync-tools.ps1) | Win/Mac/Linux | Propaga skill ou agent editado para todas as ferramentas | `sync-tools.ps1 -Type skill -Name code-review` |
+| [`../scripts/validate-harness.ps1`](../scripts/validate-harness.ps1) | Win/Mac/Linux | Valida completude e integridade do harness de um projeto | `validate-harness.ps1 -ProjectPath ...` |
 
 ---
 

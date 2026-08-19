@@ -8,11 +8,29 @@ Suporta **8 ferramentas**: Kiro IDE · Claude Code · GitHub Copilot · Amazon Q
 
 ---
 
+## Pré-requisitos
+
+Node.js LTS, Python 3.10+, uv, Git e GitHub CLI.
+
+```powershell
+# Windows — instala tudo via winget
+.\scripts\windows\install-deps.ps1
+```
+
+```bash
+# macOS / Linux — instala via brew / apt / dnf / pacman
+chmod +x scripts/unix/install-deps.sh && ./scripts/unix/install-deps.sh
+```
+
+Ver [`docs/INSTALACAO.md`](docs/INSTALACAO.md) para instruções detalhadas por OS.
+
+---
+
 ## Início rápido
 
 ```powershell
-# Projeto .NET — todas as ferramentas
-C:\Dev\agentfiles\scripts\bootstrap.ps1 `
+# Windows — todas as ferramentas
+.\scripts\bootstrap.ps1 `
     -ProjectPath        "C:\Dev\MeuProjeto" `
     -ProjectName        "MeuProjeto" `
     -ProjectDescription "Sistema de gestão de contratos com .NET e Blazor." `
@@ -23,8 +41,8 @@ C:\Dev\agentfiles\scripts\bootstrap.ps1 `
     -TestCommand        "dotnet test tests/ --logger console;verbosity=minimal" `
     -All
 
-# Projeto Node/TypeScript — só Kiro + Claude + Codex
-C:\Dev\agentfiles\scripts\bootstrap.ps1 `
+# Windows — só Kiro + Claude + Codex
+.\scripts\bootstrap.ps1 `
     -ProjectPath        "C:\Dev\MeuApp" `
     -ProjectName        "MeuApp" `
     -ProjectDescription "API REST em Node.js com TypeScript e PostgreSQL." `
@@ -34,6 +52,19 @@ C:\Dev\agentfiles\scripts\bootstrap.ps1 `
     -BuildCommand       "npm run build" `
     -TestCommand        "npm test" `
     -Kiro -Claude -Codex
+```
+
+```bash
+# macOS / Linux — wizard interativo
+./scripts/unix/new-project.sh
+
+# macOS / Linux — direto com argumentos
+./scripts/unix/bootstrap.sh \
+    --ProjectPath "$HOME/Dev/MeuApp" \
+    --ProjectName "MeuApp" \
+    --ProjectDescription "API REST em Node.js com TypeScript." \
+    --StackDescription "Node.js, TypeScript, PostgreSQL" \
+    --Kiro --Claude --Codex
 ```
 
 ---
