@@ -1,0 +1,11 @@
+# Normalizar line endings para LF no repositório
+* text=auto eol=lf
+
+# Scripts PowerShell — manter CRLF no Windows
+*.ps1 text eol=crlf
+
+# Binários — não tocar
+*.png binary
+*.jpg binary
+*.ico binary
+*.zip binary
