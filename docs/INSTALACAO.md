@@ -1,4 +1,4 @@
-# Instalação e Pré-requisitos
+﻿# Instalação e Pré-requisitos
 
 ## Dependências
 
@@ -19,7 +19,7 @@
 
 ```powershell
 # No PowerShell como Administrador
-.\scripts\install-deps.ps1
+.\scripts\windows\install-deps.ps1
 ```
 
 O script usa `winget` (App Installer — nativo no Windows 11, disponível no Windows 10).
@@ -61,8 +61,8 @@ gh --version
 ### Instalar automaticamente
 
 ```bash
-chmod +x scripts/install-deps.sh
-./scripts/install-deps.sh
+chmod +x scripts/unix/install-deps.sh
+./scripts/unix/install-deps.sh
 ```
 
 O script usa Homebrew (instalado automaticamente se ausente).
@@ -88,8 +88,8 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ### Instalar automaticamente
 
 ```bash
-chmod +x scripts/install-deps.sh
-./scripts/install-deps.sh
+chmod +x scripts/unix/install-deps.sh
+./scripts/unix/install-deps.sh
 ```
 
 ### Instalar manualmente
@@ -132,14 +132,14 @@ Os scripts do agentfiles são PowerShell (`.ps1`). No macOS/Linux:
 
 ```bash
 # Inicializar um projeto
-./scripts/bootstrap.sh \
+./scripts/unix/bootstrap.sh \
     --ProjectPath "$HOME/Dev/MeuProjeto" \
     --ProjectName "MeuProjeto" \
     --ProjectDescription "Descrição do projeto" \
     --All
 
 # Ou usar o wizard interativo
-./scripts/new-project.sh
+./scripts/unix/new-project.sh
 
 # Criar novo steering
 pwsh scripts/new-steering.ps1 -ProjectPath "$HOME/Dev/MeuProjeto"

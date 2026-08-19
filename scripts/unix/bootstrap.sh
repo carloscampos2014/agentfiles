@@ -1,11 +1,11 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────────────────────
 # agentfiles · bootstrap.sh
 # Wrapper para rodar o bootstrap.ps1 no macOS e Linux via PowerShell 7 (pwsh).
 # Requer: pwsh (PowerShell 7+) — instale com install-deps.sh
 #
 # Uso:
-#   ./scripts/bootstrap.sh \
+#   ./scripts/unix/bootstrap.sh \
 #       --ProjectPath "$HOME/Dev/MeuProjeto" \
 #       --ProjectName "MeuProjeto" \
 #       --ProjectDescription "Descrição do projeto" \
@@ -20,12 +20,12 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BOOTSTRAP_PS1="$SCRIPT_DIR/bootstrap.ps1"
+BOOTSTRAP_PS1="$SCRIPT_DIR/../bootstrap.ps1"
 
 if ! command -v pwsh &>/dev/null; then
     echo ""
     echo "  ❌ PowerShell (pwsh) não encontrado."
-    echo "  Instale com: ./scripts/install-deps.sh"
+    echo "  Instale com: ./scripts/unix/install-deps.sh"
     echo ""
     echo "  Ou instale manualmente:"
     echo "    macOS:  brew install --cask powershell"

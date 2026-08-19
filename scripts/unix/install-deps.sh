@@ -1,12 +1,12 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────────────────────
 # agentfiles · install-deps.sh
 # Instala todas as dependências necessárias para usar o agentfiles
 # no macOS e Linux (Ubuntu/Debian, Fedora/RHEL, Arch).
 #
 # Uso:
-#   chmod +x scripts/install-deps.sh
-#   ./scripts/install-deps.sh
+#   chmod +x scripts/unix/install-deps.sh
+#   ./scripts/unix/install-deps.sh
 #
 # Flags:
 #   --skip-node    Pular instalação do Node.js
@@ -191,12 +191,8 @@ else
     case $OS in
         macos)
             echo -e "  ${GRAY}Instalar com: brew install --cask powershell${RESET}" ;;
-        debian)
-            echo -e "  ${GRAY}Instalar: https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-linux${RESET}" ;;
-        fedora)
-            echo -e "  ${GRAY}Instalar: https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-linux${RESET}" ;;
-        arch)
-            echo -e "  ${GRAY}Instalar com: sudo pacman -S powershell${RESET}" ;;
+        debian|fedora|arch)
+            echo -e "  ${GRAY}Ver: https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-linux${RESET}" ;;
     esac
 fi
 
@@ -223,6 +219,6 @@ if $ALL_OK; then
     echo -e "  ${YELLOW}pwsh scripts/bootstrap.ps1 -ProjectPath ~/Dev/MeuProjeto -ProjectName MeuProjeto ...${RESET}"
 else
     echo -e "  ${YELLOW}⚠  Algumas dependências não foram encontradas.${RESET}"
-    echo -e "  ${GRAY}Reinicie o terminal e execute novamente: ./scripts/install-deps.sh${RESET}"
+    echo -e "  ${GRAY}Reinicie o terminal e execute novamente: ./scripts/unix/install-deps.sh${RESET}"
 fi
 echo ""

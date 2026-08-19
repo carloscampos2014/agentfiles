@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Instala todas as dependências necessárias para usar o agentfiles no Windows.
     Node.js, npm, Python, uv/uvx, Git e GitHub CLI.
@@ -171,6 +171,6 @@ if ($allOk) {
     Write-Host "  .\scripts\bootstrap.ps1 -ProjectPath C:\Dev\MeuProjeto -ProjectName MeuProjeto ..." -ForegroundColor Yellow
 } else {
     Write-Host "  ⚠  Algumas dependências não foram encontradas." -ForegroundColor Yellow
-    Write-Host "     Reinicie o terminal e execute novamente: .\scripts\install-deps.ps1" -ForegroundColor DarkGray
+    Write-Host "     Reinicie o terminal e execute novamente: .\scripts\windows\install-deps.ps1" -ForegroundColor DarkGray
 }
 Write-Host ""

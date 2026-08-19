@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────────────────────
 # agentfiles · new-project.sh
 # Wizard interativo multiplataforma para inicializar um novo projeto.
@@ -52,7 +52,7 @@ echo -e "  ${BOLD}╚═══════════════════�
 
 if ! command -v pwsh &>/dev/null; then
     echo -e "\n  ${YELLOW}⚠  PowerShell (pwsh) não encontrado.${RESET}"
-    echo -e "  Instale com: ${CYAN}./scripts/install-deps.sh${RESET}"
+    echo -e "  Instale com: ${CYAN}./scripts/unix/install-deps.sh${RESET}"
     exit 1
 fi
 
@@ -78,7 +78,7 @@ mkdir -p "$PROJECT_PATH"
 # ─── Montar argumentos PowerShell ────────────────────────────────────────────
 
 PS_CMD=(
-    pwsh -NonInteractive -File "$SCRIPT_DIR/bootstrap.ps1"
+    pwsh -NonInteractive -File "$SCRIPT_DIR/../bootstrap.ps1"
     -ProjectPath "$PROJECT_PATH"
     -ProjectName "$PROJECT_NAME"
     -ProjectDescription "$PROJECT_DESC"

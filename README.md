@@ -14,12 +14,12 @@ Node.js LTS, Python 3.10+, uv, Git e GitHub CLI.
 
 ```powershell
 # Windows — instala tudo via winget
-.\scripts\install-deps.ps1
+.\scripts\windows\install-deps.ps1
 ```
 
 ```bash
 # macOS / Linux — instala via brew / apt / dnf / pacman
-chmod +x scripts/install-deps.sh && ./scripts/install-deps.sh
+chmod +x scripts/unix/install-deps.sh && ./scripts/unix/install-deps.sh
 ```
 
 Ver [`docs/INSTALACAO.md`](docs/INSTALACAO.md) para instruções detalhadas por OS.
@@ -56,10 +56,10 @@ Ver [`docs/INSTALACAO.md`](docs/INSTALACAO.md) para instruções detalhadas por 
 
 ```bash
 # macOS / Linux — wizard interativo
-./scripts/new-project.sh
+./scripts/unix/new-project.sh
 
 # macOS / Linux — direto com argumentos
-./scripts/bootstrap.sh \
+./scripts/unix/bootstrap.sh \
     --ProjectPath "$HOME/Dev/MeuApp" \
     --ProjectName "MeuApp" \
     --ProjectDescription "API REST em Node.js com TypeScript." \

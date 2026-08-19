@@ -78,10 +78,10 @@ O que faz cada template incluído no harness e como customizar.
 | Script | OS | O que faz | Uso |
 |--------|-----|-----------|-----|
 | [`../scripts/bootstrap.ps1`](../scripts/bootstrap.ps1) | Win/Mac/Linux | Inicializa novo projeto com todas as ferramentas | `bootstrap.ps1 -ProjectPath ... -All` |
-| [`../scripts/bootstrap.sh`](../scripts/bootstrap.sh) | Mac/Linux | Wrapper bash para bootstrap.ps1 | `./bootstrap.sh --ProjectPath ... --All` |
-| [`../scripts/new-project.sh`](../scripts/new-project.sh) | Mac/Linux | Wizard interativo Unix para novo projeto | `./new-project.sh` |
+| [`../scripts/unix/bootstrap.sh`](../scripts/unix/bootstrap.sh) | Mac/Linux | Wrapper bash para bootstrap.ps1 | `./bootstrap.sh --ProjectPath ... --All` |
+| [`../scripts/unix/new-project.sh`](../scripts/unix/new-project.sh) | Mac/Linux | Wizard interativo Unix para novo projeto | `./new-project.sh` |
 | [`../scripts/install-deps.ps1`](../scripts/install-deps.ps1) | Windows | Instala Git, Node.js, Python, uv, gh CLI via winget | `./install-deps.ps1` |
-| [`../scripts/install-deps.sh`](../scripts/install-deps.sh) | Mac/Linux | Instala todas as dependências via brew/apt/dnf/pacman | `./install-deps.sh` |
+| [`../scripts/unix/install-deps.sh`](../scripts/unix/install-deps.sh) | Mac/Linux | Instala todas as dependências via brew/apt/dnf/pacman | `./install-deps.sh` |
 | [`../scripts/new-steering.ps1`](../scripts/new-steering.ps1) | Win/Mac/Linux | Wizard para criar steering com template por tipo | `new-steering.ps1 -ProjectPath ...` |
 | [`../scripts/new-hook.ps1`](../scripts/new-hook.ps1) | Win/Mac/Linux | Wizard para criar hook com todos os eventos e tipos | `new-hook.ps1 -ProjectPath ...` |
 | [`../scripts/new-skill.ps1`](../scripts/new-skill.ps1) | Win/Mac/Linux | Cria skill em todas as ferramentas detectadas | `new-skill.ps1 -ProjectPath ...` |
