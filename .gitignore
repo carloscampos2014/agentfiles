@@ -1,0 +1,23 @@
+# Dados gerados pelo harness em projetos (não commitados aqui)
+.kiro/quality/
+.kiro/knowledge/sessions/
+.kiro/harness/profiles/
+
+# Configurações pessoais
+.claude/settings.local.json
+*.local.json
+
+# Variáveis de ambiente
+.env
+.env.*
+!.env.example
+
+# Sistemas operacionais
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+*.suo
+*.user

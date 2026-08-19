@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "project": "__PROJECT_NAME__",
+  "components": {
+    "templates": true,
+    "knowledge_capture": true,
+    "review_validation": true,
+    "pre_requirements": true,
+    "quality_reporting": true,
+    "retrospective": true,
+    "onboarding": true,
+    "tech_debt_detector": true,
+    "agent_router": true,
+    "git_guardrails": true
+  },
+  "thresholds": {
+    "quality_score_verde": 90,
+    "quality_score_amarelo": 70,
+    "completude_minima": 70,
+    "padrao_captura_repeticoes": 3
+  },
+  "build": {
+    "command": "__BUILD_COMMAND__",
+    "test_command": "__TEST_COMMAND__",
+    "lint_command": "__LINT_COMMAND__"
+  },
+  "repo": {
+    "owner": "__GITHUB_OWNER__",
+    "name": "__GITHUB_REPO__",
+    "default_branch": "master"
+  }
+}
