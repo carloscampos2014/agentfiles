@@ -243,93 +243,24 @@ Se nenhuma flag for passada, `-Kiro` é ativado por padrão.
 
 ---
 
-## Após o bootstrap: passos obrigatórios
+## Após o bootstrap
 
-**1. Criar `project-standards.md` no Kiro**
+O bootstrap cria os arquivos base. Dois passos restam para completar:
 
-O steering mais importante que o bootstrap não gera automaticamente — contém os padrões específicos da stack:
+**1. Criar o arquivo de padrões do projeto**
 
-```markdown
----
-inclusion: auto
----
+Cada ferramenta tem um arquivo onde ficam os padrões específicos da stack — estrutura de pastas, bibliotecas, regras de negócio. O bootstrap não gera esse arquivo porque só você sabe o conteúdo.
 
-# Padrões específicos — NomeDoProjeto
+Consulte o guia da sua ferramenta em [`docs/ferramentas/`](docs/ferramentas/) para saber onde e como criar.
 
-## Stack obrigatória
-- Backend: .NET 10, C#, PostgreSQL, Dapper
-- Testes: xUnit, FluentAssertions, Testcontainers, NSubstitute
+**2. Configurar variáveis de ambiente**
 
-## Estrutura de projetos
-src/
-  NomeProjeto.Domain/
-  NomeProjeto.Application/
-  NomeProjeto.Infrastructure/
-  NomeProjeto.Api/
-tests/
-  NomeProjeto.Domain.Tests/
-  NomeProjeto.Application.Tests/
-  NomeProjeto.IntegrationTests/
-```
+| Variável | Usada por |
+|----------|-----------|
+| `GITHUB_PAT` | MCP github |
+| `FIGMA_API_KEY` | MCP figma (opcional) |
 
-Salvar em `.kiro/steering/project-standards.md`.
-
-**2. Ajustar os comandos no `harness-config.json`**
-
-Se não passou `-BuildCommand` e `-TestCommand` no bootstrap:
-
-```json
-"build": {
-  "command": "dotnet build NomeProjeto.sln -c Debug",
-  "test_command": "dotnet test tests/ --logger console;verbosity=minimal",
-  "lint_command": ""
-}
-```
-
-**3. Adicionar hooks de stack específica (opcional — Kiro)**
-
-Para projetos .NET, adicione em `.kiro/hooks/build-on-cs-save.json`:
-
-```json
-{
-  "version": "v1",
-  "hooks": [{
-    "name": "Build ao salvar C#",
-    "trigger": "PostFileSave",
-    "matcher": "\\.cs$",
-    "action": {
-      "type": "command",
-      "command": "dotnet build NomeProjeto.sln --no-restore -v quiet 2>&1 | Select-Object -Last 5",
-      "timeout": 60
-    }
-  }]
-}
-```
-
-**4. Configurar variáveis de ambiente**
-
-| Variável | Usada por | Como configurar |
-|----------|-----------|----------------|
-| `GITHUB_PAT` | MCP github (Kiro, Claude, Codex) | `$env:GITHUB_PAT = "ghp_..."` |
-| `FIGMA_API_KEY` | MCP figma (Kiro) | `$env:FIGMA_API_KEY = "..."` |
-
----
-
-## Referência rápida — Kiro steerings
-
-| Steering | Inclusion | Ativar com |
-|----------|-----------|-----------|
-| `harness-output-formatter` | `always` | Automático |
-| `harness-anti-patterns` | `always` | Automático |
-| `harness-agent-router` | `always` | Automático |
-| `harness-one-question` | `always` | Automático |
-| `harness-verification-report` | `auto` | Automático |
-| `git-commits` | `auto` | Automático |
-| `method-development` | `manual` | `#method-development` no chat |
-| `engineering-standards` *(global)* | `auto` | Automático |
-| `workflow-aprovacao` *(global)* | `auto` | Automático |
-| `workflow-desenvolvimento` *(global)* | `auto` | Automático |
-| `continuar-de-onde-paramos` *(global)* | `manual` | `#continuar-de-onde-paramos` |
+Para detalhes por ferramenta, exemplos de hooks de stack e referência de steerings, veja [`docs/ferramentas/`](docs/ferramentas/).
 
 ---
 
