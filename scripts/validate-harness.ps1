@@ -124,7 +124,7 @@ if ($hasKiro) {
     }
 
     # Hooks obrigatórios
-    $requiredHooks = @("guardrails-pre-write","build-test-on-stop","pre-task-spec-check","validate-task-completion","session-summary")
+    $requiredHooks = @("guardrails-pre-write","build-test-on-stop","pre-task-spec-check","validate-task-completion","session-summary","harness-retrospective")
     foreach ($h in $requiredHooks) {
         $hookPath = Check-File ".kiro\hooks\$h.json" "hook/$h"
         if ($hookPath) { Check-Json ".kiro\hooks\$h.json" "hook/$h" }

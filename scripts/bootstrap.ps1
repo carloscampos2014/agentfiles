@@ -241,6 +241,7 @@ if ($Kiro) {
         "pre-task-spec-check.json",
         "validate-task-completion.json",
         "session-summary.json",
+        "harness-retrospective.json",
         "missing-test-alert.json"
     )
     foreach ($f in $hooksUniversais) {
