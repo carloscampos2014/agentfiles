@@ -41,10 +41,10 @@ function Check-Placeholders([string]$path, [string]$label) {
     $full = Join-Path $ProjectPath $path
     if (-not (Test-Path $full)) { return }
     $content = Get-Content $full -Raw -Encoding UTF8
-    $placeholders = [regex]::Matches($content, '__[A-Z_]+__') | Select-Object -Unique
+    $placeholders = @([regex]::Matches($content, '__[A-Z_]+__') | Select-Object -Unique)
     if ($placeholders.Count -gt 0) {
         $list = ($placeholders | ForEach-Object { $_.Value }) -join ", "
-        $script:warnings.Add("Placeholders não substituídos em $path: $list")
+        $script:warnings.Add("Placeholders não substituídos em ${path}: $list")
     }
 }
 
