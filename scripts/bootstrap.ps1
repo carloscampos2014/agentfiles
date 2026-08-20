@@ -219,7 +219,8 @@ if ($Kiro) {
         "harness-one-question.md",
         "harness-verification-report.md",
         "method-development.md",
-        "git-commits.md"
+        "git-commits.md",
+        "briefing-detalhado.md"
     )
     foreach ($f in $steeringsUniversais) {
         Copy-Template (Join-Path $steeringSrc $f) (Join-Path $steeringDst $f)
@@ -318,7 +319,8 @@ if ($Claude) {
     # Rules
     @("engineering-standards.md","senior-developer.md","solutions-architect.md",
       "workflow.md","01-result-pattern.md","02-logging-observability.md",
-      "03-testing-requirements.md","04-database-best-practices.md") | ForEach-Object {
+      "03-testing-requirements.md","04-database-best-practices.md",
+      "briefing-detalhado.md") | ForEach-Object {
         Copy-Template (Join-Path $claudeSrc "rules\$_") (Join-Path $claudeDst "rules\$_")
     }
 
@@ -378,6 +380,11 @@ if ($Copilot) {
         Copy-Template (Join-Path $copilotSrc "skills\$_") (Join-Path $copilotDst "skills\$_")
     }
 
+    # Instructions (always-on — applyTo: "**")
+    Copy-Template `
+        (Join-Path $copilotSrc "instructions\briefing-detalhado.md") `
+        (Join-Path $copilotDst "instructions\briefing-detalhado.md")
+
     # Commands
     Copy-Template `
         (Join-Path $copilotSrc "commands\generate-docs.md") `
@@ -399,7 +406,8 @@ if ($AmazonQ) {
     }
 
     # Rules com frontmatter Amazon Q (name + description + tools + model)
-    @("senior-developer.md","solutions-architect.md","qa-engineer.md","business-analyst.md") | ForEach-Object {
+    @("senior-developer.md","solutions-architect.md","qa-engineer.md","business-analyst.md",
+      "briefing-detalhado.md") | ForEach-Object {
         Copy-Template (Join-Path $qSrc "rules\$_") (Join-Path $qDst "rules\$_")
     }
 
@@ -467,7 +475,8 @@ if ($Trae) {
     $traeDst = Join-Path $ProjectDir   ".trae"
 
     # Rules
-    @("01-engineering-standards.md","02-git-workflow.md","03-architecture.md","04-testing-requirements.md") | ForEach-Object {
+    @("01-engineering-standards.md","02-git-workflow.md","03-architecture.md",
+      "04-testing-requirements.md","briefing-detalhado.md") | ForEach-Object {
         Copy-Template (Join-Path $traeSrc "rules\$_") (Join-Path $traeDst "rules\$_")
     }
 
