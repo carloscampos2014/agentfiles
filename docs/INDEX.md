@@ -9,7 +9,8 @@ Para uso rápido, veja o [`README.md`](../README.md) na raiz.
 
 | Documento | O que cobre |
 |-----------|-------------|
-| [`GUIA-HARNESS.md`](GUIA-HARNESS.md) | Inventário completo dos 70 templates, matriz de capacidades por ferramenta, detalhes de cada componente, como estender o harness |
+| [`GUIA-HARNESS.md`](GUIA-HARNESS.md) | Inventário completo dos templates, matriz de capacidades, MCPs, hooks, steerings, como estender |
+| [`../CHANGELOG.md`](../CHANGELOG.md) | Histórico de versões — o que mudou em cada release |
 
 ---
 

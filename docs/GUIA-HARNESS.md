@@ -17,26 +17,34 @@ pelos agentes em tempo de interação.
 
 ---
 
-## Inventário completo (70 arquivos de template)
+## Inventário completo de templates
 
 ```
 agentfiles/
 ├── README.md
-├── GUIA-HARNESS.md
 ├── scripts/
-│   └── bootstrap.ps1
+│   ├── bootstrap.ps1               inicializa projeto novo
+│   ├── update-harness.ps1          atualiza projeto existente (diff por hash)
+│   ├── validate-harness.ps1        valida completude do harness
+│   ├── sync-tools.ps1              propaga skill/agent entre ferramentas
+│   ├── new-steering.ps1            wizard para criar steering
+│   ├── new-hook.ps1                wizard para criar hook
+│   ├── new-skill.ps1               cria skill em todas as ferramentas
+│   └── new-agent.ps1               cria agent para Claude/Copilot/Amazon Q
 └── templates/
-    ├── .mcp.json                    ← MCP raiz para Claude Code
+    ├── .mcp.json                    ← MCP raiz para Claude Code e outras ferramentas
     │
     ├── .kiro/                       ── KIRO IDE ──────────────────────────────
     │   ├── harness-config.json
-    │   ├── settings/mcp.json
+    │   ├── settings/mcp.json        ← 10 MCPs incluindo knowledge-rag e memory
     │   ├── steering/
     │   │   ├── harness-output-formatter.md   (always)
     │   │   ├── harness-anti-patterns.md      (always)
     │   │   ├── harness-agent-router.md       (always)
     │   │   ├── harness-one-question.md       (always)
     │   │   ├── harness-verification-report.md (auto)
+    │   │   ├── harness-knowledge-rag.md      (always) RAG — quando usar knowledge-rag e memory
+    │   │   ├── briefing-detalhado.md         (always) formato de briefing por arquivo
     │   │   ├── method-development.md         (manual)
     │   │   └── git-commits.md                (auto)
     │   ├── hooks/
@@ -44,89 +52,106 @@ agentfiles/
     │   │   ├── build-test-on-stop.json       Stop
     │   │   ├── pre-task-spec-check.json      PreTaskExec
     │   │   ├── validate-task-completion.json PostTaskExec
-    │   │   ├── session-summary.json          Stop
+    │   │   ├── session-summary.json          Stop (v2 — ADRs inline + contexto crítico)
+    │   │   ├── harness-retrospective.json    PostTaskExec (planejado vs real)
     │   │   └── missing-test-alert.json       PostFileCreate
     │   ├── knowledge/INDEX.md
-    │   └── quality/
-    │       ├── history.json
-    │       └── tech-debt.json
+    │   ├── quality/
+    │   │   ├── history.json
+    │   │   └── tech-debt.json
+    │   └── skills/
+    │       ├── bootstrap-from-docs/SKILL.md
+    │       └── bootstrap-from-code/SKILL.md
     │
     ├── .claude/                     ── CLAUDE CODE ───────────────────────────
     │   ├── CLAUDE.md
-    │   ├── settings.json            ← hooks + permissões allow/deny
-    │   ├── settings.local.json      ← overrides pessoais (gitignored)
-    │   ├── agents/                  ← @nome no chat
-    │   │   ├── senior-developer.md  model: sonnet
+    │   ├── settings.json
+    │   ├── settings.local.json
+    │   ├── agents/
+    │   │   ├── senior-developer.md
     │   │   ├── solutions-architect.md
     │   │   ├── qa-engineer.md
     │   │   └── business-analyst.md
-    │   ├── rules/                   ← carregadas automaticamente
+    │   ├── rules/
     │   │   ├── engineering-standards.md
     │   │   ├── workflow.md
     │   │   ├── senior-developer.md
     │   │   ├── solutions-architect.md
+    │   │   ├── briefing-detalhado.md
     │   │   ├── 01-result-pattern.md
     │   │   ├── 02-logging-observability.md
     │   │   ├── 03-testing-requirements.md
     │   │   └── 04-database-best-practices.md
-    │   ├── skills/                  ← /nome no chat
+    │   ├── skills/
     │   │   ├── code-review/SKILL.md
     │   │   ├── spec-driven-development/SKILL.md
     │   │   ├── systematic-debugging/SKILL.md
-    │   │   └── architecture-design/SKILL.md
+    │   │   ├── architecture-design/SKILL.md
+    │   │   ├── bootstrap-from-docs/SKILL.md
+    │   │   └── bootstrap-from-code/SKILL.md
     │   └── commands/
     │       └── generate-docs.md
     │
     ├── .github/                     ── GITHUB COPILOT ────────────────────────
     │   ├── copilot-instructions.md
     │   ├── agents/
-    │   │   ├── senior-developer.md  (sem campo model — diferença do Amazon Q)
+    │   │   ├── senior-developer.md
     │   │   ├── solutions-architect.md
     │   │   ├── qa-engineer.md
     │   │   └── business-analyst.md
+    │   ├── instructions/            ← always-on (applyTo: "**")
+    │   │   └── briefing-detalhado.md
     │   ├── skills/
     │   │   ├── code-review.md
     │   │   ├── spec-driven-development.md
     │   │   ├── systematic-debugging.md
     │   │   ├── architecture-design.md
+    │   │   ├── bootstrap-from-docs.md
+    │   │   ├── bootstrap-from-code.md
     │   │   └── README.md
     │   └── commands/
     │       └── generate-docs.md
     │
     ├── .amazonq/                    ── AMAZON Q ──────────────────────────────
-    │   ├── rules/                   ← frontmatter: name + description + tools + model
+    │   ├── rules/
     │   │   ├── senior-developer.md
     │   │   ├── solutions-architect.md
     │   │   ├── qa-engineer.md
-    │   │   └── business-analyst.md
-    │   └── skills/                  ← mesmo conteúdo do .github/skills/
+    │   │   ├── business-analyst.md
+    │   │   └── briefing-detalhado.md
+    │   └── skills/
     │       ├── code-review.md
     │       ├── spec-driven-development.md
     │       ├── systematic-debugging.md
     │       ├── architecture-design.md
+    │       ├── bootstrap-from-docs.md
+    │       ├── bootstrap-from-code.md
     │       └── README.md
     │
     ├── codex/                       ── OPENAI CODEX ──────────────────────────
-    │   ├── AGENTS.md
+    │   ├── AGENTS.md                ← inclui briefing-detalhado
     │   └── .codex/
-    │       └── config.toml          ← MCPs: github, filesystem, fetch, memory
+    │       └── config.toml
     │
     ├── gemini/                      ── GEMINI CLI ────────────────────────────
-    │   └── GEMINI.md
+    │   └── GEMINI.md                ← inclui briefing-detalhado
     │
     ├── qwen/                        ── QWEN CODE ─────────────────────────────
-    │   └── QWEN.md
+    │   └── QWEN.md                  ← inclui briefing-detalhado
     │
     └── .trae/                       ── TRAE IDE ──────────────────────────────
         ├── rules/
         │   ├── 01-engineering-standards.md
         │   ├── 02-git-workflow.md
         │   ├── 03-architecture.md
-        │   └── 04-testing-requirements.md
+        │   ├── 04-testing-requirements.md
+        │   └── briefing-detalhado.md
         └── skills/
             ├── code-review.md
             ├── systematic-debugging.md
-            └── spec-driven-development.md
+            ├── spec-driven-development.md
+            ├── bootstrap-from-docs.md
+            └── bootstrap-from-code.md
 ```
 
 ---
@@ -231,7 +256,7 @@ Instalados pelo harness e disponíveis em **todos** os projetos:
 
 Capturar quando: mesmo problema 3+ vezes, decisão de design tomada, armadilha custosa.
 
-### MCP — servidores incluídos (`.kiro/settings/mcp.json`)
+### MCP — servidores incluídos (`.kiro/settings/mcp.json` e `.mcp.json`)
 
 | MCP | O que fornece |
 |-----|--------------|
@@ -240,10 +265,14 @@ Capturar quando: mesmo problema 3+ vezes, decisão de design tomada, armadilha c
 | `github` | GitHub API — issues, PRs, projetos |
 | `git` | Operações git programáticas |
 | `fetch` | Busca de URLs externas |
-| `memory` | Memória persistente entre sessões |
+| `knowledge-rag` | Busca semântica híbrida (semantic + BM25) em `.kiro/knowledge/` — 100% local, via `uvx` |
+| `memory` | Grafo de conhecimento persistente entre sessões — entidades, relações, observações |
 | `sequential-thinking` | Raciocínio estruturado em etapas |
 | `time` | Data e hora atual |
 | `figma` | Leitura de designs Figma (requer `FIGMA_API_KEY`) |
+
+O `knowledge-rag` indexa automaticamente `.kiro/knowledge/` (sessões, patterns, specs, docs).
+O steering `harness-knowledge-rag.md` instrui o agente quando e como usar cada MCP.
 
 Adicionar postgres automaticamente passando `-DbConnectionString` no bootstrap.
 
