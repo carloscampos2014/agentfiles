@@ -332,7 +332,8 @@ if ($Claude) {
     }
 
     # Skills (pastas com SKILL.md — invocar com /nome)
-    @("code-review","spec-driven-development","systematic-debugging","architecture-design") | ForEach-Object {
+    @("code-review","spec-driven-development","systematic-debugging","architecture-design",
+      "bootstrap-from-docs","bootstrap-from-code") | ForEach-Object {
         Copy-Template `
             (Join-Path $claudeSrc "skills\$_\SKILL.md") `
             (Join-Path $claudeDst "skills\$_\SKILL.md")
@@ -378,7 +379,8 @@ if ($Copilot) {
     }
 
     # Skills
-    @("code-review.md","spec-driven-development.md","systematic-debugging.md","architecture-design.md","README.md") | ForEach-Object {
+    @("code-review.md","spec-driven-development.md","systematic-debugging.md","architecture-design.md","README.md",
+      "bootstrap-from-docs.md","bootstrap-from-code.md") | ForEach-Object {
         Copy-Template (Join-Path $copilotSrc "skills\$_") (Join-Path $copilotDst "skills\$_")
     }
 
@@ -414,7 +416,8 @@ if ($AmazonQ) {
     }
 
     # Skills (mesmo conteúdo do GitHub Copilot)
-    @("code-review.md","spec-driven-development.md","systematic-debugging.md","architecture-design.md","README.md") | ForEach-Object {
+    @("code-review.md","spec-driven-development.md","systematic-debugging.md","architecture-design.md","README.md",
+      "bootstrap-from-docs.md","bootstrap-from-code.md") | ForEach-Object {
         Copy-Template (Join-Path $qSrc "skills\$_") (Join-Path $qDst "skills\$_")
     }
 
@@ -483,7 +486,8 @@ if ($Trae) {
     }
 
     # Skills
-    @("code-review.md","systematic-debugging.md","spec-driven-development.md") | ForEach-Object {
+    @("code-review.md","systematic-debugging.md","spec-driven-development.md",
+      "bootstrap-from-docs.md","bootstrap-from-code.md") | ForEach-Object {
         Copy-Template (Join-Path $traeSrc "skills\$_") (Join-Path $traeDst "skills\$_")
     }
 
