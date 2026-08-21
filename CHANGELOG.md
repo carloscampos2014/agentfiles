@@ -7,6 +7,35 @@ versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+## [1.1.0] — 2026-08-19
+
+### Adicionado
+
+**Templates — Kiro IDE**
+- `steering/briefing-detalhado.md` — formato visual obrigatório de briefing com tabela de escopo, blocos antes/depois, emojis de status
+- `steering/harness-knowledge-rag.md` — instrui o agente quando e como usar `knowledge-rag` e `memory` MCP
+- `hooks/session-summary.json` — atualizado para v2 com ADRs inline, steerings ativos, knowledge consultado e contexto crítico para retomada
+- `hooks/harness-retrospective.json` — novo hook PostTaskExec: compara planejado vs real ao concluir última task do spec
+- `skills/bootstrap-from-docs/SKILL.md` — lê documentos de ideia e gera comando bootstrap completo
+- `skills/bootstrap-from-code/SKILL.md` — analisa código-fonte existente e gera comando bootstrap completo
+- MCPs `knowledge-rag` (busca semântica local via uvx) e `memory` com path configurado em `mcp.json`
+
+**Templates — Todas as ferramentas**
+- `briefing-detalhado` adicionado como rule/instruction/steering em Claude, Copilot (instructions/), Amazon Q, TRAE
+- `briefing-detalhado` adicionado via append em AGENTS.md, GEMINI.md, QWEN.md
+- Skills `bootstrap-from-docs` e `bootstrap-from-code` adicionados em Claude, Copilot, Amazon Q, TRAE
+- MCP `knowledge-rag` adicionado em `.mcp.json` (raiz do projeto)
+
+**Scripts**
+- `update-harness.ps1` — compara templates com projeto por hash SHA256, atualiza apenas o que mudou, nunca toca em arquivos do projeto, suporta `-WhatIf`
+- `validate-harness.ps1` — corrigido: `@()` para `[regex]::Matches()` e `${path}` para evitar ParseException no PowerShell strict mode; `harness-retrospective` adicionado à lista de hooks obrigatórios
+
+### Alterado
+
+- `bootstrap.ps1` — adicionados `briefing-detalhado`, `harness-knowledge-rag`, `harness-retrospective` às listas de cópia; adicionados skills `bootstrap-from-docs` e `bootstrap-from-code` para todas as ferramentas
+
+---
+
 ## [1.0.0] — 2026-08-18
 
 ### Adicionado
