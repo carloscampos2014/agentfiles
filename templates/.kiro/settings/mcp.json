@@ -39,12 +39,25 @@
         "mcp-server-fetch"
       ]
     },
+    "knowledge-rag": {
+      "command": "cmd",
+      "args": [
+        "/c", "uvx",
+        "knowledge-rag@latest"
+      ],
+      "env": {
+        "KNOWLEDGE_BASE_PATH": "C:\\Dev\\__PROJECT_DIR__\\.kiro\\knowledge"
+      }
+    },
     "memory": {
       "command": "cmd",
       "args": [
         "/c", "npx", "-y",
         "@modelcontextprotocol/server-memory"
-      ]
+      ],
+      "env": {
+        "MEMORY_FILE_PATH": "C:\\Dev\\__PROJECT_DIR__\\.kiro\\knowledge\\memory.jsonl"
+      }
     },
     "sequential-thinking": {
       "command": "cmd",
