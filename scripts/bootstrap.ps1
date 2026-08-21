@@ -220,7 +220,8 @@ if ($Kiro) {
         "harness-verification-report.md",
         "method-development.md",
         "git-commits.md",
-        "briefing-detalhado.md"
+        "briefing-detalhado.md",
+        "harness-knowledge-rag.md"
     )
     foreach ($f in $steeringsUniversais) {
         Copy-Template (Join-Path $steeringSrc $f) (Join-Path $steeringDst $f)
