@@ -34,6 +34,10 @@ $ProjectOwnedFiles = @(
     ".kiro\knowledge\INDEX.md",
     ".kiro\quality\history.json",
     ".kiro\quality\tech-debt.json",
+    ".agent\mcp_config.json",
+    ".agent\knowledge\INDEX.md",
+    ".agent\quality\history.json",
+    ".agent\quality\tech-debt.json",
     ".mcp.json",
     "AGENTS.md",
     "GEMINI.md",
@@ -102,6 +106,7 @@ $hasClaude  = Test-Path (Join-Path $ProjectDir ".claude")
 $hasCopilot = Test-Path (Join-Path $ProjectDir ".github")
 $hasAmazonQ = Test-Path (Join-Path $ProjectDir ".amazonq")
 $hasTrae    = Test-Path (Join-Path $ProjectDir ".trae")
+$hasAntigravity = (Test-Path (Join-Path $ProjectDir ".agent")) -or (Test-Path (Join-Path $ProjectDir ".agents"))
 
 # Kiro
 if ($hasKiro) {
@@ -157,6 +162,30 @@ if ($hasTrae) {
     $rulesSrc = Join-Path $TemplatesDir ".trae\rules"
     Get-ChildItem -Path $rulesSrc -Filter "*.md" | ForEach-Object {
         Compare-AndUpdate $_.FullName ".trae\rules\$($_.Name)"
+    }
+}
+
+# Google Antigravity
+if ($hasAntigravity) {
+    Write-Host "  -- Google Antigravity" -ForegroundColor Cyan
+
+    $agyDir = if (Test-Path (Join-Path $ProjectDir ".agent")) { ".agent" } else { ".agents" }
+
+    $rulesSrc = Join-Path $TemplatesDir ".agent\rules"
+    if (Test-Path $rulesSrc) {
+        Get-ChildItem -Path $rulesSrc -Filter "*.md" | ForEach-Object {
+            Compare-AndUpdate $_.FullName "$agyDir\rules\$($_.Name)"
+        }
+    }
+
+    $hooksSrc = Join-Path $TemplatesDir ".agent\hooks.json"
+    if (Test-Path $hooksSrc) {
+        Compare-AndUpdate $hooksSrc "$agyDir\hooks.json"
+    }
+
+    $guardrailsSrc = Join-Path $TemplatesDir ".agent\hooks\guardrails.js"
+    if (Test-Path $guardrailsSrc) {
+        Compare-AndUpdate $guardrailsSrc "$agyDir\hooks\guardrails.js"
     }
 }
 

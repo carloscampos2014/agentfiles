@@ -7,6 +7,32 @@ versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+## [1.2.0] — 2026-11-09
+
+### Adicionado
+
+**Templates — Google Antigravity**
+- Estrutura de templates completa em `templates/.agent/`
+- 11 rules modulares em `.agent/rules/`: `briefing-detalhado.md`, `engineering-standards.md`, `harness-anti-patterns.md`, `workflow.md`, `01-result-pattern.md`, `02-logging-observability.md`, `03-testing-requirements.md`, `04-database-best-practices.md`, `senior-developer.md`, `solutions-architect.md` e `method-development.md`
+- 6 skills completas com `SKILL.md` em `.agent/skills/`: `code-review`, `spec-driven-development`, `systematic-debugging`, `architecture-design`, `bootstrap-from-docs`, `bootstrap-from-code`
+- Hook nativo `hooks.json` com `PreToolUse` e script `hooks/guardrails.js` para bloqueio de comandos perigosos
+- Configuração de MCP nativo `mcp_config.json` com servidores filesystem, git, github, fetch, knowledge-rag, memory e sequential-thinking
+- Estrutura de knowledge base (`knowledge/INDEX.md`) e controle de qualidade (`quality/history.json`, `quality/tech-debt.json`)
+
+**Scripts**
+- `bootstrap.ps1`: suporte ao switch `-Antigravity` e inclusão no `-All`
+- `validate-harness.ps1`: validação de integridade para a estrutura `.agent/` e `mcp_config.json`
+- `update-harness.ps1`: detecção e atualização de rules e hooks do Antigravity
+- `sync-tools.ps1`: suporte a Antigravity como origem e destino de sincronização de skills e agents
+- `new-skill.ps1` & `new-agent.ps1`: detecção e criação de skills e rules para Antigravity
+- `scripts/unix/new-project.sh`: adição do Antigravity no wizard interativo
+
+**Documentação**
+- `docs/ferramentas/08-antigravity.md`: guia de uso completo do harness com o Google Antigravity
+- Atualizados `README.md`, `docs/INDEX.md` e `docs/GUIA-HARNESS.md`
+
+---
+
 ## [1.1.0] — 2026-08-19
 
 ### Adicionado

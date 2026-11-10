@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────────────────────
 # agentfiles · new-project.sh
 # Wizard interativo multiplataforma para inicializar um novo projeto.
@@ -27,8 +27,8 @@ choose_tools() {
     echo -e "  (espaço para selecionar, enter para confirmar)"
     echo ""
 
-    local tools=("Kiro" "Claude" "Copilot" "AmazonQ" "Codex" "Gemini" "Qwen" "Trae")
-    local selected=("true" "false" "false" "false" "false" "false" "false" "false")
+    local tools=("Kiro" "Claude" "Copilot" "AmazonQ" "Codex" "Gemini" "Qwen" "Trae" "Antigravity")
+    local selected=("true" "false" "false" "false" "false" "false" "false" "false" "false")
     local current=0
 
     # Fallback simples se não tiver terminal interativo

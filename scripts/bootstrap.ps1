@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Inicializa o ambiente de desenvolvimento AI para um novo projeto.
 
@@ -85,6 +85,7 @@ param(
     [switch]$Gemini,
     [switch]$Qwen,
     [switch]$Trae,
+    [switch]$Antigravity,
     [switch]$All
 )
 
@@ -98,10 +99,10 @@ $TemplatesDir = Join-Path $HarnessRoot "templates"
 $ProjectDir   = $ProjectPath.TrimEnd('\','/')
 
 # Ativar todas as ferramentas se -All foi passado
-if ($All) { $Kiro = $Claude = $Copilot = $AmazonQ = $Codex = $Gemini = $Qwen = $Trae = $true }
+if ($All) { $Kiro = $Claude = $Copilot = $AmazonQ = $Codex = $Gemini = $Qwen = $Trae = $Antigravity = $true }
 
 # Se nenhuma flag passada, ativar Kiro por padrão
-if (-not ($Kiro -or $Claude -or $Copilot -or $AmazonQ -or $Codex -or $Gemini -or $Qwen -or $Trae)) { $Kiro = $true }
+if (-not ($Kiro -or $Claude -or $Copilot -or $AmazonQ -or $Codex -or $Gemini -or $Qwen -or $Trae -or $Antigravity)) { $Kiro = $true }
 
 # Calcular caminho relativo do projeto (ex: "MeuProjeto" a partir de C:\Dev\MeuProjeto)
 $ProjectDirName = Split-Path -Leaf $ProjectDir
@@ -124,17 +125,18 @@ function Write-Warn([string]$msg) {
     Write-Host "    ⚠  $msg" -ForegroundColor Yellow
 }
 
-function Replace-Placeholders([string]$content) {
-    $content = $content -replace '__PROJECT_NAME__',        $ProjectName
-    $content = $content -replace '__PROJECT_DIR__',         $ProjectDir
-    $content = $content -replace '__PROJECT_DESCRIPTION__', $ProjectDescription
-    $content = $content -replace '__STACK_DESCRIPTION__',   $StackDescription
-    $content = $content -replace '__GITHUB_OWNER__',        $GithubOwner
-    $content = $content -replace '__GITHUB_REPO__',         $GithubRepo
-    $content = $content -replace '__BUILD_COMMAND__',       $BuildCommand
-    $content = $content -replace '__TEST_COMMAND__',        $TestCommand
-    $content = $content -replace '__LINT_COMMAND__',        $LintCommand
-    $content = $content -replace '__PROJECT_DIRNAME__',     $ProjectDirName
+function Replace-Placeholders([string]$content, [bool]$isJson = $false) {
+    $dirVal  = if ($isJson) { $ProjectDir.Replace('\', '\\') } else { $ProjectDir }
+    $content = $content.Replace('__PROJECT_NAME__',        $ProjectName)
+    $content = $content.Replace('__PROJECT_DIR__',         $dirVal)
+    $content = $content.Replace('__PROJECT_DESCRIPTION__', $ProjectDescription)
+    $content = $content.Replace('__STACK_DESCRIPTION__',   $StackDescription)
+    $content = $content.Replace('__GITHUB_OWNER__',        $GithubOwner)
+    $content = $content.Replace('__GITHUB_REPO__',         $GithubRepo)
+    $content = $content.Replace('__BUILD_COMMAND__',       $BuildCommand)
+    $content = $content.Replace('__TEST_COMMAND__',        $TestCommand)
+    $content = $content.Replace('__LINT_COMMAND__',        $LintCommand)
+    $content = $content.Replace('__PROJECT_DIRNAME__',     $ProjectDirName)
     return $content
 }
 
@@ -147,8 +149,9 @@ function Copy-Template([string]$src, [string]$dst, [bool]$replace = $true) {
         Write-Skip "Já existe: $(Split-Path -Leaf $dst) — pulando"
         return
     }
+    $isJson  = $dst.EndsWith(".json", [System.StringComparison]::OrdinalIgnoreCase)
     $content = Get-Content $src -Raw -Encoding UTF8
-    $content = Replace-Placeholders $content
+    $content = Replace-Placeholders $content $isJson
     Set-Content -Path $dst -Value $content -Encoding UTF8 -NoNewline
     Write-Ok "$(Split-Path -Leaf $dst)"
 }
@@ -494,6 +497,88 @@ if ($Trae) {
     Write-Ok "Estrutura .trae/ pronta"
 }
 
+# ─── Google Antigravity ───────────────────────────────────────────────────────
+
+if ($Antigravity) {
+    Write-Step "Inicializando Google Antigravity (.agent/)"
+
+    $agySrc = Join-Path $TemplatesDir ".agent"
+    $agyDst = Join-Path $ProjectDir   ".agent"
+
+    # Criar diretórios
+    @("rules", "skills", "hooks", "knowledge\patterns", "knowledge\sessions", "quality\retrospectives") | ForEach-Object {
+        New-Item -ItemType Directory -Path (Join-Path $agyDst $_) -Force | Out-Null
+    }
+
+    # Rules
+    Get-ChildItem -Path (Join-Path $agySrc "rules") -Filter "*.md" | ForEach-Object {
+        Copy-Template $_.FullName (Join-Path $agyDst "rules\$($_.Name)")
+    }
+
+    # Skills (pastas com SKILL.md)
+    @("code-review","spec-driven-development","systematic-debugging","architecture-design",
+      "bootstrap-from-docs","bootstrap-from-code") | ForEach-Object {
+        Copy-Template `
+            (Join-Path $agySrc "skills\$_\SKILL.md") `
+            (Join-Path $agyDst "skills\$_\SKILL.md")
+    }
+
+    # Hooks
+    Copy-Template `
+        (Join-Path $agySrc "hooks\guardrails.js") `
+        (Join-Path $agyDst "hooks\guardrails.js") -replace $false
+
+    Copy-Template `
+        (Join-Path $agySrc "hooks.json") `
+        (Join-Path $agyDst "hooks.json") -replace $false
+
+    # MCP config — substituir placeholders de caminho
+    $mcpSrc = Join-Path $agySrc "mcp_config.json"
+    $mcpDst = Join-Path $agyDst "mcp_config.json"
+    if (-not (Test-Path $mcpDst)) {
+        Copy-Template $mcpSrc $mcpDst
+        if ($DbConnectionString -ne "") {
+            $mcpContent = Get-Content $mcpDst -Raw
+            $postgresEntry = @"
+    ,
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "$DbConnectionString"
+      ]
+    }
+"@
+            $mcpContent = $mcpContent -replace '(\s*}\s*)$', "$postgresEntry`$1"
+            Set-Content -Path $mcpDst -Value $mcpContent -Encoding UTF8 -NoNewline
+            Write-Ok "mcp_config.json (com postgres)"
+        }
+    } else {
+        Write-Skip "mcp_config.json já existe — não sobrescrito"
+    }
+
+    # Knowledge & Quality
+    Copy-Template `
+        (Join-Path $agySrc "knowledge\INDEX.md") `
+        (Join-Path $agyDst "knowledge\INDEX.md")
+    Copy-Template `
+        (Join-Path $agySrc "quality\history.json") `
+        (Join-Path $agyDst "quality\history.json") -replace $false
+    Copy-Template `
+        (Join-Path $agySrc "quality\tech-debt.json") `
+        (Join-Path $agyDst "quality\tech-debt.json") -replace $false
+
+    # Copiar GEMINI.md na raiz se não existir
+    $geminiRootDst = Join-Path $ProjectDir "GEMINI.md"
+    if (-not (Test-Path $geminiRootDst)) {
+        Copy-Template (Join-Path $TemplatesDir "gemini\GEMINI.md") $geminiRootDst
+        Write-Ok "GEMINI.md na raiz do projeto"
+    }
+
+    Write-Ok "Estrutura .agent/ pronta"
+}
+
 # ─── Resumo final ─────────────────────────────────────────────────────────────
 
 Write-Host ""
@@ -519,6 +604,9 @@ if ($Copilot) {
 }
 if ($AmazonQ) {
     Write-Host "  4. Adicione rules específicas de stack em .amazonq\rules\ se necessário." -ForegroundColor Yellow
+}
+if ($Antigravity) {
+    Write-Host "  5. Antigravity: verifique .agent/mcp_config.json e execute com o agente." -ForegroundColor Yellow
 }
 
 Write-Host ""

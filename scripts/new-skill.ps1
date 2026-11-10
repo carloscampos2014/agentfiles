@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Wizard para criar uma nova skill em todas as ferramentas simultaneamente.
     Cria o SKILL.md para Kiro/Claude e arquivos .md para Copilot, Amazon Q e TRAE.
@@ -95,12 +95,14 @@ $skillContent
 
 # ─── Detectar ferramentas disponíveis ────────────────────────────────────────
 
+$agyDir = if (Test-Path (Join-Path $ProjectPath ".agent")) { ".agent" } else { ".agents" }
 $tools = @{}
-$tools["kiro"]    = Test-Path (Join-Path $ProjectPath ".kiro\skills")
-$tools["claude"]  = Test-Path (Join-Path $ProjectPath ".claude\skills")
-$tools["copilot"] = Test-Path (Join-Path $ProjectPath ".github\skills")
-$tools["amazonq"] = Test-Path (Join-Path $ProjectPath ".amazonq\skills")
-$tools["trae"]    = Test-Path (Join-Path $ProjectPath ".trae\skills")
+$tools["kiro"]        = Test-Path (Join-Path $ProjectPath ".kiro\skills")
+$tools["claude"]      = Test-Path (Join-Path $ProjectPath ".claude\skills")
+$tools["copilot"]     = Test-Path (Join-Path $ProjectPath ".github\skills")
+$tools["amazonq"]     = Test-Path (Join-Path $ProjectPath ".amazonq\skills")
+$tools["trae"]        = Test-Path (Join-Path $ProjectPath ".trae\skills")
+$tools["antigravity"] = Test-Path (Join-Path $ProjectPath "$agyDir\skills")
 
 Write-Title "3. Ferramentas detectadas"
 $tools.GetEnumerator() | ForEach-Object {
@@ -145,6 +147,14 @@ if ($tools["trae"]) {
     Set-Content -Path (Join-Path $ProjectPath ".trae\skills\$name.md") -Value $skillContent -Encoding UTF8
     Write-Ok "TRAE: .trae/skills/$name.md"
 } else { Write-Skip "TRAE (não inicializado)" }
+
+# Antigravity — pasta com SKILL.md
+if ($tools["antigravity"]) {
+    $dir = Join-Path $ProjectPath "$agyDir\skills\$name"
+    New-Item -ItemType Directory -Path $dir -Force | Out-Null
+    Set-Content -Path (Join-Path $dir "SKILL.md") -Value $skillMd -Encoding UTF8
+    Write-Ok "Antigravity: $agyDir/skills/$name/SKILL.md"
+} else { Write-Skip "Antigravity (não inicializado)" }
 
 # ─── Resumo ───────────────────────────────────────────────────────────────────
 

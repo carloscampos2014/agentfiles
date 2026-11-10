@@ -86,6 +86,18 @@ model: claude-sonnet-4-5-20250929
 [mesmo corpo]
 ```
 
+### Passo 5 — Criar para Google Antigravity (`.agent/rules/`)
+
+No Antigravity, subagentes e especialistas operam como rules sob demanda com `trigger: model_decision`:
+
+```markdown
+---
+trigger: model_decision
+description: "Especialidade. Use para [casos de uso]."
+---
+[mesmo corpo]
+```
+
 ---
 
 ## Exemplo completo — DevSecOps Engineer

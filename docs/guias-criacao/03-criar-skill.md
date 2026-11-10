@@ -29,11 +29,12 @@ Responda antes de escrever:
 - **Como o resultado deve ser reportado?** (formato de saída)
 - **Quais são as keywords que devem ativar esta skill?** (para a `description`)
 
-### Passo 2 — Criar o arquivo Kiro/Claude (pasta com SKILL.md)
+### Passo 2 — Criar o arquivo Kiro, Claude e Antigravity (pasta com SKILL.md)
 
 ```
 .kiro/skills/nome-da-skill/SKILL.md
 .claude/skills/nome-da-skill/SKILL.md
+.agent/skills/nome-da-skill/SKILL.md
 ```
 
 ```markdown
