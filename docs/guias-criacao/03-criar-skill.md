@@ -1,4 +1,4 @@
-﻿# Guia: Criar uma Skill
+# Guia: Criar uma Skill
 
 ## Quando criar uma nova skill
 

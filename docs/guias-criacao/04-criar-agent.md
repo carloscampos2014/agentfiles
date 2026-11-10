@@ -1,4 +1,4 @@
-﻿# Guia: Criar um Agent
+# Guia: Criar um Agent
 
 ## Quando criar um novo agent
 
