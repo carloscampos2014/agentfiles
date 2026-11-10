@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Wizard para criar um novo agent especializado para Claude Code, GitHub Copilot e Amazon Q.
 
@@ -137,9 +137,11 @@ Você é um $role especializado em $domain.
 
 # ─── Detectar ferramentas disponíveis ────────────────────────────────────────
 
-$hasClaude  = Test-Path (Join-Path $ProjectPath ".claude\agents")
-$hasCopilot = Test-Path (Join-Path $ProjectPath ".github\agents")
-$hasAmazonQ = Test-Path (Join-Path $ProjectPath ".amazonq\rules")
+$agyDir = if (Test-Path (Join-Path $ProjectPath ".agent")) { ".agent" } else { ".agents" }
+$hasClaude      = Test-Path (Join-Path $ProjectPath ".claude\agents")
+$hasCopilot     = Test-Path (Join-Path $ProjectPath ".github\agents")
+$hasAmazonQ     = Test-Path (Join-Path $ProjectPath ".amazonq\rules")
+$hasAntigravity = Test-Path (Join-Path $ProjectPath "$agyDir\rules")
 
 Write-Title "3. Criando agent"
 
@@ -163,6 +165,13 @@ if ($hasAmazonQ) {
     Set-Content -Path (Join-Path $ProjectPath ".amazonq\rules\$name.md") -Value ($fm + $agentBody) -Encoding UTF8
     Write-Ok "Amazon Q: .amazonq/rules/$name.md"
 } else { Write-Skip "Amazon Q (pasta rules/ não encontrada)" }
+
+# Antigravity
+if ($hasAntigravity) {
+    $fm = "---`ntrigger: model_decision`ndescription: `"$description`"`n---`n`n"
+    Set-Content -Path (Join-Path $ProjectPath "$agyDir\rules\$name.md") -Value ($fm + $agentBody) -Encoding UTF8
+    Write-Ok "Antigravity: $agyDir/rules/$name.md"
+} else { Write-Skip "Antigravity (pasta rules/ não encontrada)" }
 
 Write-Host ""
 Write-Host "  ✅ Agent '$name' criado" -ForegroundColor Green

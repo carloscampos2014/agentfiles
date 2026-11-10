@@ -1,10 +1,10 @@
-﻿# agentfiles
+# agentfiles
 
 > Os dotfiles do seu ambiente de desenvolvimento com agentes AI.
 
 Templates, automações e documentação para inicializar o harness de desenvolvimento em novos projetos — da mesma forma que `dotfiles` padroniza seu shell, o `agentfiles` padroniza como os agentes AI se comportam no seu projeto.
 
-Suporta **8 ferramentas**: Kiro IDE · Claude Code · GitHub Copilot · Amazon Q · OpenAI Codex · Gemini CLI · Qwen Code · TRAE IDE
+Suporta **9 ferramentas**: Kiro IDE · Claude Code · GitHub Copilot · Amazon Q · OpenAI Codex · Gemini CLI · Qwen Code · TRAE IDE · Google Antigravity
 
 ---
 
@@ -233,6 +233,33 @@ Agents, skills e MCPs do Qwen existem dentro de **extensões** (`qwen extensions
 
 Agents do TRAE são configurados pela UI do IDE, não por arquivos de projeto.
 
+### Google Antigravity (`-Antigravity`)
+
+```
+GEMINI.md                            ← instrução principal e índice do projeto
+.agent/
+├── hooks.json                       ← guardrails de execução (PreToolUse)
+├── mcp_config.json                  ← servidores MCP (github, git, filesystem, knowledge-rag, memory, fetch...)
+├── hooks/
+│   └── guardrails.js                ← validação e bloqueio de comandos perigosos
+├── rules/                           ← regras modulares (always_on e model_decision)
+│   ├── engineering-standards.md     SOLID, Clean Code, segurança
+│   ├── harness-anti-patterns.md     comportamentos proibidos
+│   ├── workflow.md                  branches, commits, PRs
+│   ├── briefing-detalhado.md        formato obrigatório de briefing por arquivo
+│   ├── 01-result-pattern.md         Result<T>, NotificationContext
+│   ├── 02-logging-observability.md  auditoria e logs estruturados
+│   ├── 03-testing-requirements.md   cobertura mínima, AAA
+│   └── 04-database-best-practices.md boas práticas de banco
+└── skills/                          ← procedimentos sob demanda (SKILL.md)
+    ├── code-review/SKILL.md
+    ├── spec-driven-development/SKILL.md
+    ├── systematic-debugging/SKILL.md
+    ├── architecture-design/SKILL.md
+    ├── bootstrap-from-docs/SKILL.md
+    └── bootstrap-from-code/SKILL.md
+```
+
 ---
 
 ## Parâmetros do bootstrap
@@ -257,6 +284,7 @@ Agents do TRAE são configurados pela UI do IDE, não por arquivos de projeto.
 | `-Gemini` | Não | Inicializar Gemini CLI |
 | `-Qwen` | Não | Inicializar Qwen Code |
 | `-Trae` | Não | Inicializar TRAE IDE |
+| `-Antigravity` | Não | Inicializar Google Antigravity |
 | `-All` | Não | Inicializar todas as ferramentas |
 
 Se nenhuma flag for passada, `-Kiro` é ativado por padrão.

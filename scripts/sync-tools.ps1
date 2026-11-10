@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Sincroniza um template editado (skill ou agent) para todas as ferramentas do projeto.
     Útil quando você edita a skill no Kiro e quer propagar a mudança para Copilot, Amazon Q e TRAE.
@@ -29,7 +29,7 @@ param(
     [string]$ProjectPath  = (Get-Location).Path,
     [ValidateSet("skill","agent")][string]$Type,
     [string]$Name         = "",
-    [ValidateSet("kiro","claude","copilot","amazonq","trae")][string]$SourceTool = "kiro"
+    [ValidateSet("kiro","claude","copilot","amazonq","trae","antigravity")][string]$SourceTool = "kiro"
 )
 
 Set-StrictMode -Version Latest
@@ -60,11 +60,19 @@ function Get-SourcePath([string]$tool, [string]$type, [string]$name) {
         "copilot|skill" { return Join-Path $ProjectPath ".github\skills\$name.md" }
         "amazonq|skill" { return Join-Path $ProjectPath ".amazonq\skills\$name.md" }
         "trae|skill"    { return Join-Path $ProjectPath ".trae\skills\$name.md" }
+        "antigravity|skill" {
+            $agyDir = if (Test-Path (Join-Path $ProjectPath ".agent")) { ".agent" } else { ".agents" }
+            return Join-Path $ProjectPath "$agyDir\skills\$name\SKILL.md"
+        }
         "kiro|agent"    { return $null }  # Kiro não tem agents como arquivos de projeto
         "claude|agent"  { return Join-Path $ProjectPath ".claude\agents\$name.md" }
         "copilot|agent" { return Join-Path $ProjectPath ".github\agents\$name.md" }
         "amazonq|agent" { return Join-Path $ProjectPath ".amazonq\rules\$name.md" }
         "trae|agent"    { return $null }  # TRAE agents são via UI
+        "antigravity|agent" {
+            $agyDir = if (Test-Path (Join-Path $ProjectPath ".agent")) { ".agent" } else { ".agents" }
+            return Join-Path $ProjectPath "$agyDir\rules\$name.md"
+        }
     }
 }
 
@@ -74,13 +82,15 @@ if (-not $Name) {
     Write-Host "`n  ${Type}s disponíveis para sincronizar:" -ForegroundColor White
 
     # Procurar em todas as ferramentas
+    $agyDir = if (Test-Path (Join-Path $ProjectPath ".agent")) { ".agent" } else { ".agents" }
     $found = @{}
     $searchPaths = @{
-        kiro    = if ($Type -eq "skill") { ".kiro\skills" }    else { $null }
-        claude  = if ($Type -eq "skill") { ".claude\skills" }  else { ".claude\agents" }
-        copilot = if ($Type -eq "skill") { ".github\skills" }  else { ".github\agents" }
-        amazonq = if ($Type -eq "skill") { ".amazonq\skills" } else { ".amazonq\rules" }
-        trae    = if ($Type -eq "skill") { ".trae\skills" }    else { $null }
+        kiro        = if ($Type -eq "skill") { ".kiro\skills" }    else { $null }
+        claude      = if ($Type -eq "skill") { ".claude\skills" }  else { ".claude\agents" }
+        copilot     = if ($Type -eq "skill") { ".github\skills" }  else { ".github\agents" }
+        amazonq     = if ($Type -eq "skill") { ".amazonq\skills" } else { ".amazonq\rules" }
+        trae        = if ($Type -eq "skill") { ".trae\skills" }    else { $null }
+        antigravity = if ($Type -eq "skill") { "$agyDir\skills" }  else { "$agyDir\rules" }
     }
 
     foreach ($entry in $searchPaths.GetEnumerator()) {
@@ -171,6 +181,17 @@ if ($Type -eq "skill") {
             Write-Ok "TRAE: .trae/skills/$Name.md"
         } else { Write-Skip "TRAE (não inicializado)" }
     }
+    # Antigravity
+    if ($SourceTool -ne "antigravity") {
+        $agyDir = if (Test-Path (Join-Path $ProjectPath ".agent")) { ".agent" } else { ".agents" }
+        $dir = Join-Path $ProjectPath "$agyDir\skills\$Name"
+        if (Test-Path (Join-Path $ProjectPath "$agyDir\skills")) {
+            New-Item -ItemType Directory -Path $dir -Force | Out-Null
+            $fm = "---`nname: $Name`ndescription: `"Sincronizado de $SourceTool`"`n---`n`n"
+            Set-Content -Path (Join-Path $dir "SKILL.md") -Value ($fm + $body) -Encoding UTF8
+            Write-Ok "Antigravity: $agyDir/skills/$Name/SKILL.md"
+        } else { Write-Skip "Antigravity (não inicializado)" }
+    }
 
 } elseif ($Type -eq "agent") {
     # Claude
@@ -199,6 +220,16 @@ if ($Type -eq "skill") {
             Set-Content -Path $dst -Value ($fm + $body) -Encoding UTF8
             Write-Ok "Amazon Q: .amazonq/rules/$Name.md"
         } else { Write-Skip "Amazon Q (não inicializado)" }
+    }
+    # Antigravity
+    if ($SourceTool -ne "antigravity") {
+        $agyDir = if (Test-Path (Join-Path $ProjectPath ".agent")) { ".agent" } else { ".agents" }
+        $dst = Join-Path $ProjectPath "$agyDir\rules\$Name.md"
+        if (Test-Path (Join-Path $ProjectPath "$agyDir\rules")) {
+            $fm = "---`ntrigger: model_decision`ndescription: `"Sincronizado de $SourceTool`"`n---`n`n"
+            Set-Content -Path $dst -Value ($fm + $body) -Encoding UTF8
+            Write-Ok "Antigravity: $agyDir/rules/$Name.md"
+        } else { Write-Skip "Antigravity (não inicializado)" }
     }
 }
 

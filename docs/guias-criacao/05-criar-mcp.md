@@ -44,6 +44,10 @@ Repositórios de referência:
 
 Mesmo formato JSON. Commitável junto com o projeto.
 
+## Adicionar no Google Antigravity (`.agent/mcp_config.json`)
+
+Mesmo formato JSON com `mcpServers`, scoped para o projeto em `.agent/mcp_config.json`.
+
 ## Adicionar no Codex (`.codex/config.toml`)
 
 ```toml

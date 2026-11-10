@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Valida se o harness de um projeto está completo e atualizado.
     Verifica arquivos esperados, placeholders não substituídos e JSON inválido.
@@ -21,16 +21,17 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-$errors   = [System.Collections.Generic.List[string]]::new()
+$errors = [System.Collections.Generic.List[string]]::new()
 $warnings = [System.Collections.Generic.List[string]]::new()
-$oks      = [System.Collections.Generic.List[string]]::new()
+$oks = [System.Collections.Generic.List[string]]::new()
 
 function Check-File([string]$path, [string]$label, [bool]$required = $true) {
     $full = Join-Path $ProjectPath $path
     if (Test-Path $full) {
         $script:oks.Add("$label")
         return $full
-    } else {
+    }
+    else {
         if ($required) { $script:errors.Add("Ausente: $path ($label)") }
         else { $script:warnings.Add("Opcional ausente: $path ($label)") }
         return $null
@@ -54,7 +55,8 @@ function Check-Json([string]$path, [string]$label) {
     try {
         Get-Content $full -Raw | ConvertFrom-Json | Out-Null
         $script:oks.Add("JSON válido: $label")
-    } catch {
+    }
+    catch {
         $script:errors.Add("JSON inválido: $path — $($_.Exception.Message)")
     }
 }
@@ -71,14 +73,15 @@ Write-Host ""
 
 # ─── Detectar ferramentas ─────────────────────────────────────────────────────
 
-$hasKiro    = Test-Path (Join-Path $ProjectPath ".kiro")
-$hasClaude  = Test-Path (Join-Path $ProjectPath ".claude")
+$hasKiro = Test-Path (Join-Path $ProjectPath ".kiro")
+$hasClaude = Test-Path (Join-Path $ProjectPath ".claude")
 $hasCopilot = Test-Path (Join-Path $ProjectPath ".github")
 $hasAmazonQ = Test-Path (Join-Path $ProjectPath ".amazonq")
-$hasCodex   = Test-Path (Join-Path $ProjectPath "AGENTS.md")
-$hasGemini  = Test-Path (Join-Path $ProjectPath "GEMINI.md")
-$hasQwen    = Test-Path (Join-Path $ProjectPath "QWEN.md")
-$hasTrae    = Test-Path (Join-Path $ProjectPath ".trae")
+$hasCodex = Test-Path (Join-Path $ProjectPath "AGENTS.md")
+$hasGemini = Test-Path (Join-Path $ProjectPath "GEMINI.md")
+$hasQwen = Test-Path (Join-Path $ProjectPath "QWEN.md")
+$hasTrae = Test-Path (Join-Path $ProjectPath ".trae")
+$hasAntigravity = (Test-Path (Join-Path $ProjectPath ".agent")) -or (Test-Path (Join-Path $ProjectPath ".agents"))
 
 Write-Host "  Ferramentas detectadas:" -ForegroundColor White
 @{
@@ -90,8 +93,9 @@ Write-Host "  Ferramentas detectadas:" -ForegroundColor White
     "Gemini CLI"     = $hasGemini
     "Qwen Code"      = $hasQwen
     "TRAE"           = $hasTrae
+    "Antigravity"    = $hasAntigravity
 }.GetEnumerator() | ForEach-Object {
-    $icon  = if ($_.Value) { "✅" } else { "○ " }
+    $icon = if ($_.Value) { "✅" } else { "○ " }
     $color = if ($_.Value) { "Green" } else { "DarkGray" }
     Write-Host "  $icon $($_.Key)" -ForegroundColor $color
 }
@@ -112,7 +116,7 @@ if ($hasKiro) {
     Check-Placeholders ".kiro\settings\mcp.json" "mcp.json"
 
     # Steerings obrigatórios
-    $requiredSteerings = @("harness-output-formatter","harness-anti-patterns","harness-agent-router","harness-one-question","git-commits")
+    $requiredSteerings = @("harness-output-formatter", "harness-anti-patterns", "harness-agent-router", "harness-one-question", "git-commits")
     foreach ($s in $requiredSteerings) {
         Check-File ".kiro\steering\$s.md" "steering/$s"
     }
@@ -124,7 +128,7 @@ if ($hasKiro) {
     }
 
     # Hooks obrigatórios
-    $requiredHooks = @("guardrails-pre-write","build-test-on-stop","pre-task-spec-check","validate-task-completion","session-summary","harness-retrospective")
+    $requiredHooks = @("guardrails-pre-write", "build-test-on-stop", "pre-task-spec-check", "validate-task-completion", "session-summary", "harness-retrospective")
     foreach ($h in $requiredHooks) {
         $hookPath = Check-File ".kiro\hooks\$h.json" "hook/$h"
         if ($hookPath) { Check-Json ".kiro\hooks\$h.json" "hook/$h" }
@@ -156,17 +160,17 @@ if ($hasClaude) {
     Check-Placeholders ".claude\CLAUDE.md" "CLAUDE.md"
     Check-File ".claude\settings.json" "settings.json"
 
-    $requiredRules = @("engineering-standards","workflow","01-result-pattern","02-logging-observability","03-testing-requirements","04-database-best-practices")
+    $requiredRules = @("engineering-standards", "workflow", "01-result-pattern", "02-logging-observability", "03-testing-requirements", "04-database-best-practices")
     foreach ($r in $requiredRules) {
         Check-File ".claude\rules\$r.md" "rule/$r"
     }
 
-    $requiredAgents = @("senior-developer","solutions-architect","qa-engineer","business-analyst")
+    $requiredAgents = @("senior-developer", "solutions-architect", "qa-engineer", "business-analyst")
     foreach ($a in $requiredAgents) {
         Check-File ".claude\agents\$a.md" "agent/$a"
     }
 
-    $requiredSkills = @("code-review","spec-driven-development","systematic-debugging","architecture-design")
+    $requiredSkills = @("code-review", "spec-driven-development", "systematic-debugging", "architecture-design")
     foreach ($s in $requiredSkills) {
         Check-File ".claude\skills\$s\SKILL.md" "skill/$s"
     }
@@ -175,7 +179,8 @@ if ($hasClaude) {
     $hasMcp = Test-Path (Join-Path $ProjectPath ".mcp.json")
     if (-not $hasMcp) {
         $warnings.Add("Recomendado: .mcp.json na raiz do projeto (MCP compartilhado com o time)")
-    } else {
+    }
+    else {
         Check-Placeholders ".mcp.json" ".mcp.json"
     }
 }
@@ -188,10 +193,10 @@ if ($hasCopilot) {
     Check-File ".github\copilot-instructions.md" "copilot-instructions.md"
     Check-Placeholders ".github\copilot-instructions.md" "copilot-instructions.md"
 
-    foreach ($a in @("senior-developer","solutions-architect","qa-engineer","business-analyst")) {
+    foreach ($a in @("senior-developer", "solutions-architect", "qa-engineer", "business-analyst")) {
         Check-File ".github\agents\$a.md" "agent/$a" $false
     }
-    foreach ($s in @("code-review","spec-driven-development","systematic-debugging","architecture-design")) {
+    foreach ($s in @("code-review", "spec-driven-development", "systematic-debugging", "architecture-design")) {
         Check-File ".github\skills\$s.md" "skill/$s" $false
     }
 }
@@ -201,7 +206,7 @@ if ($hasCopilot) {
 if ($hasAmazonQ) {
     Write-Host "`n  ── Amazon Q ──────────────────────────────" -ForegroundColor Cyan
 
-    foreach ($r in @("senior-developer","solutions-architect","qa-engineer","business-analyst")) {
+    foreach ($r in @("senior-developer", "solutions-architect", "qa-engineer", "business-analyst")) {
         $rPath = Check-File ".amazonq\rules\$r.md" "rule/$r" $false
         if ($rPath) {
             $content = Get-Content $rPath -Raw
@@ -236,11 +241,42 @@ if ($hasQwen) {
 
 if ($hasTrae) {
     Write-Host "`n  ── TRAE IDE ──────────────────────────────" -ForegroundColor Cyan
-    foreach ($r in @("01-engineering-standards","02-git-workflow","03-architecture","04-testing-requirements")) {
+    foreach ($r in @("01-engineering-standards", "02-git-workflow", "03-architecture", "04-testing-requirements")) {
         Check-File ".trae\rules\$r.md" "rule/$r"
     }
-    foreach ($s in @("code-review","systematic-debugging","spec-driven-development")) {
+    foreach ($s in @("code-review", "systematic-debugging", "spec-driven-development")) {
         Check-File ".trae\skills\$s.md" "skill/$s" $false
+    }
+}
+
+# ─── Validar Antigravity ──────────────────────────────────────────────────────
+
+if ($hasAntigravity) {
+    Write-Host "`n  ── Google Antigravity ────────────────────" -ForegroundColor Cyan
+
+    $agyDir = if (Test-Path (Join-Path $ProjectPath ".agent")) { ".agent" } else { ".agents" }
+
+    $hooksPath = Check-File "$agyDir\hooks.json" "hooks.json"
+    if ($hooksPath) { Check-Json "$agyDir\hooks.json" "hooks.json" }
+
+    $mcpPath = Check-File "$agyDir\mcp_config.json" "mcp_config.json"
+    if ($mcpPath) {
+        Check-Json "$agyDir\mcp_config.json" "mcp_config.json"
+        Check-Placeholders "$agyDir\mcp_config.json" "mcp_config.json"
+    }
+
+    $requiredAgyRules = @("briefing-detalhado", "engineering-standards", "harness-anti-patterns", "workflow")
+    foreach ($r in $requiredAgyRules) {
+        [void](Check-File "$agyDir\rules\$r.md" "rule/$r")
+    }
+
+    $requiredAgySkills = @("code-review", "spec-driven-development", "systematic-debugging", "architecture-design")
+    foreach ($s in $requiredAgySkills) {
+        [void](Check-File "$agyDir\skills\$s\SKILL.md" "skill/$s")
+    }
+
+    if (Test-Path (Join-Path $ProjectPath "GEMINI.md")) {
+        Check-Placeholders "GEMINI.md" "GEMINI.md"
     }
 }
 
@@ -254,7 +290,8 @@ Write-Host ""
 
 if ($errors.Count -eq 0 -and $warnings.Count -eq 0) {
     Write-Host "  ✅ Harness completo e sem problemas!" -ForegroundColor Green
-} else {
+}
+else {
     if ($errors.Count -gt 0) {
         Write-Host "  🔴 Erros ($($errors.Count)):" -ForegroundColor Red
         $errors | ForEach-Object { Write-Host "     • $_" -ForegroundColor Red }

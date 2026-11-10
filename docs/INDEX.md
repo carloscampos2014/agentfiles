@@ -1,4 +1,4 @@
-﻿# Documentação — agentfiles
+# Documentação — agentfiles
 
 Índice completo de toda a documentação do harness.
 Para uso rápido, veja o [`README.md`](../README.md) na raiz.
@@ -58,6 +58,7 @@ Como usar o harness em cada ferramenta — primeiro uso, configuração e dicas.
 | [`ferramentas/05-codex.md`](ferramentas/05-codex.md) | **OpenAI Codex** — AGENTS.md, hierarquia por diretório, .codex/config.toml para MCP |
 | [`ferramentas/06-gemini-qwen.md`](ferramentas/06-gemini-qwen.md) | **Gemini CLI e Qwen Code** — GEMINI.md/QWEN.md, hierarquia, @import, extensões |
 | [`ferramentas/07-trae.md`](ferramentas/07-trae.md) | **TRAE IDE** — rules permanentes, skills ativáveis, agents via UI, modo SOLO |
+| [`ferramentas/08-antigravity.md`](ferramentas/08-antigravity.md) | **Google Antigravity** — rules, skills (SKILL.md), hooks.json, mcp_config.json, GEMINI.md |
 
 ---
 

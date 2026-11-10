@@ -139,34 +139,64 @@ agentfiles/
     ├── qwen/                        ── QWEN CODE ─────────────────────────────
     │   └── QWEN.md                  ← inclui briefing-detalhado
     │
-    └── .trae/                       ── TRAE IDE ──────────────────────────────
+    ├── .trae/                       ── TRAE IDE ──────────────────────────────
+    │   ├── rules/
+    │   │   ├── 01-engineering-standards.md
+    │   │   ├── 02-git-workflow.md
+    │   │   ├── 03-architecture.md
+    │   │   ├── 04-testing-requirements.md
+    │   │   └── briefing-detalhado.md
+    │   └── skills/
+    │       ├── code-review.md
+    │       ├── systematic-debugging.md
+    │       ├── spec-driven-development.md
+    │       ├── bootstrap-from-docs.md
+    │       └── bootstrap-from-code.md
+    │
+    └── .agent/                      ── GOOGLE ANTIGRAVITY ────────────────────
+        ├── hooks.json
+        ├── mcp_config.json
+        ├── hooks/
+        │   └── guardrails.js
         ├── rules/
-        │   ├── 01-engineering-standards.md
-        │   ├── 02-git-workflow.md
-        │   ├── 03-architecture.md
-        │   ├── 04-testing-requirements.md
-        │   └── briefing-detalhado.md
+        │   ├── 01-result-pattern.md
+        │   ├── 02-logging-observability.md
+        │   ├── 03-testing-requirements.md
+        │   ├── 04-database-best-practices.md
+        │   ├── briefing-detalhado.md
+        │   ├── engineering-standards.md
+        │   ├── harness-anti-patterns.md
+        │   ├── method-development.md
+        │   ├── senior-developer.md
+        │   ├── solutions-architect.md
+        │   └── workflow.md
+        ├── knowledge/
+        │   └── INDEX.md
+        ├── quality/
+        │   ├── history.json
+        │   └── tech-debt.json
         └── skills/
-            ├── code-review.md
-            ├── systematic-debugging.md
-            ├── spec-driven-development.md
-            ├── bootstrap-from-docs.md
-            └── bootstrap-from-code.md
+            ├── architecture-design/SKILL.md
+            ├── bootstrap-from-code/SKILL.md
+            ├── bootstrap-from-docs/SKILL.md
+            ├── code-review/SKILL.md
+            ├── spec-driven-development/SKILL.md
+            └── systematic-debugging/SKILL.md
 ```
 
 ---
 
 ## Matriz de capacidades por ferramenta
 
-| Capacidade | Kiro | Claude | Copilot | Amazon Q | Codex | Gemini | Qwen | TRAE |
-|------------|------|--------|---------|----------|-------|--------|------|------|
-| Arquivo principal | steerings | CLAUDE.md | copilot-instructions.md | rules/ | AGENTS.md | GEMINI.md | QWEN.md | rules/ |
-| MCP por projeto | ✅ mcp.json | ✅ .mcp.json | ❌ | ❌ | ✅ config.toml | via extensão | via extensão | ❌ |
-| Agents/Subagents | via spec | ✅ agents/ | ✅ agents/ | ✅ rules/ | ❌ | via extensão | via extensão | via UI |
-| Skills | ✅ skills/ | ✅ skills/SKILL.md | ✅ skills/ | ✅ skills/ | ❌ | via extensão | via extensão | ✅ skills/ |
-| Hooks/Automações | ✅ hooks/ | ✅ settings.json | ❌ | ❌ | ❌ | via extensão | ❌ | ❌ |
-| Commands | steerings manual | ✅ commands/ | ✅ commands/ | ❌ | ❌ | via extensão | via extensão | ❌ |
-| Hierarquia global/projeto | ✅ ~/.kiro | ✅ ~/.claude | ❌ | ❌ | ✅ ~/.codex | ✅ ~/.gemini | ✅ ~/.qwen | ❌ |
+| Capacidade | Kiro | Claude | Copilot | Amazon Q | Codex | Gemini | Qwen | TRAE | Antigravity |
+|------------|------|--------|---------|----------|-------|--------|------|------|-------------|
+| Arquivo principal | steerings | CLAUDE.md | copilot-instructions.md | rules/ | AGENTS.md | GEMINI.md | QWEN.md | rules/ | GEMINI.md / .agent/rules/ |
+| MCP por projeto | ✅ mcp.json | ✅ .mcp.json | ❌ | ❌ | ✅ config.toml | via extensão | via extensão | ❌ | ✅ mcp_config.json |
+| Agents/Subagents | via spec | ✅ agents/ | ✅ agents/ | ✅ rules/ | ❌ | via extensão | via extensão | via UI | ✅ subagents / rules |
+| Skills | ✅ skills/ | ✅ skills/SKILL.md | ✅ skills/ | ✅ skills/ | ❌ | via extensão | via extensão | ✅ skills/ | ✅ skills/SKILL.md |
+| Hooks/Automações | ✅ hooks/ | ✅ settings.json | ❌ | ❌ | ❌ | via extensão | ❌ | ❌ | ✅ hooks.json |
+| Commands | steerings manual | ✅ commands/ | ✅ commands/ | ❌ | ❌ | via extensão | via extensão | ❌ | ✅ slash commands / skills |
+| Hierarquia global/projeto | ✅ ~/.kiro | ✅ ~/.claude | ❌ | ❌ | ✅ ~/.codex | ✅ ~/.gemini | ✅ ~/.qwen | ❌ | ✅ ~/.gemini e .agent/ |
 
 ---
 

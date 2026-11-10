@@ -19,5 +19,6 @@ desktop.ini
 
 # Editors
 .vscode/
+.vs/
 *.suo
 *.user

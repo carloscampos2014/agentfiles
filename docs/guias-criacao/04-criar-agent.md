@@ -1,4 +1,4 @@
-﻿# Guia: Criar um Agent
+# Guia: Criar um Agent
 
 ## Quando criar um novo agent
 
@@ -82,6 +82,18 @@ name: nome-kebab-case
 description: "Especialidade. Use para [casos]."
 tools: Read, Write, Edit, Bash, Grep, Glob, WebSearch
 model: claude-sonnet-4-5-20250929
+---
+[mesmo corpo]
+```
+
+### Passo 5 — Criar para Google Antigravity (`.agent/rules/`)
+
+No Antigravity, subagentes e especialistas operam como rules sob demanda com `trigger: model_decision`:
+
+```markdown
+---
+trigger: model_decision
+description: "Especialidade. Use para [casos de uso]."
 ---
 [mesmo corpo]
 ```
