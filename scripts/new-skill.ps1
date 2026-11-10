@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Wizard para criar uma nova skill em todas as ferramentas simultaneamente.
     Cria o SKILL.md para Kiro/Claude e arquivos .md para Copilot, Amazon Q e TRAE.
