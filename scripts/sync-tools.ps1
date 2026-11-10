@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Sincroniza um template editado (skill ou agent) para todas as ferramentas do projeto.
     Útil quando você edita a skill no Kiro e quer propagar a mudança para Copilot, Amazon Q e TRAE.

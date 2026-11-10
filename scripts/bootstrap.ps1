@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Inicializa o ambiente de desenvolvimento AI para um novo projeto.
 

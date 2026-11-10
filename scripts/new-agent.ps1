@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Wizard para criar um novo agent especializado para Claude Code, GitHub Copilot e Amazon Q.
 

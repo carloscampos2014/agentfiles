@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Valida se o harness de um projeto está completo e atualizado.
     Verifica arquivos esperados, placeholders não substituídos e JSON inválido.

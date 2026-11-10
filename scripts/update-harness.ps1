@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Atualiza o harness de um projeto comparando com os templates do agentfiles.
     So sobrescreve arquivos que vieram do harness e que estao diferentes do template.
